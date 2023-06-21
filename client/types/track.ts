@@ -12,5 +12,11 @@ export interface ITrack {
     listens: number;
     picture: string;
     audio: string;
-    commens?: IComment[];
+    comments?: IComment[];
+}
+
+export interface TraksState {
+    tracks: ITrack[];
+    error: boolean;
+    isLoading: boolean;
 }

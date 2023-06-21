@@ -2,20 +2,32 @@ import React from 'react'
 import cls from '../styles/TrackItem.module.scss'
 import { ITrack } from '../types/track'
 import { Card, Grid, IconButton } from '@mui/material';
-import { Delete, Pause, PlayArrow } from '@mui/icons-material';
+import { Delete, Pause, PlayArrow, PlayCircleSharp } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { setActive, playTrack, pauseTrack } from '../store/player/slice/playerSlice';
 
 interface TrackItemProps {
     track: ITrack;
     active?: boolean;
 }
 
-const TrackItem: React.FC<TrackItemProps> = ({track, active = true}) => {
+const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
     const router = useRouter();
+    const dispacth = useDispatch();
+    
+
+
+    const play = (e) => {
+        e.stopPropagation();
+        dispacth(setActive(track))
+        dispacth(playTrack());
+    }
+
 
     return (
         <Card className={cls.track} onClick={() => router.push('/tracks/'+track._id)}>
-            <IconButton onClick={(e) => e.stopPropagation()}>
+            <IconButton onClick={play}>
                 {active
                 ? <Pause/>
                 : <PlayArrow/>
